@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demystifying AWS CloudFront: A Beginner's Guide</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f7f9fa;
+            padding: 0;
+        }
+
+        /* Blog Header */
+        header {
+            background-color: #232f3e; /* AWS Dark Blue */
+            color: #ffffff;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        header p {
+            color: #ff9900; /* AWS Orange */
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Typography & Blog Elements */
+        .meta-info {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+        
+        h2 {
+            color: #232f3e;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 5px solid #ff9900;
+            padding-left: 10px;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Lists and Tables */
+        ol, ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 1rem;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #232f3e;
+        }
+
+        /* Callout Box */
+        .callout {
+            background-color: #fff9e6;
+            border-key: 1px solid #ffe0b2;
+            border-left: 4px solid #ff9900;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #777;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            border-top: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cloud Tech Blog</h1>
+        <p>Mastering Amazon Web Services</p>
+    </header>
+
+    <div class="container">
+        <article>
+            <h1>An Introduction to AWS CloudFront: Acceleration & Efficiency</h1>
+            <div class="meta-info">
+                Published on: May 25, 2026 | Category: Cloud Computing | Reading Time: 4 mins
+            </div>
+
+            <section>
+                <h2>What is AWS CloudFront?</h2>
+                <p><strong>Amazon CloudFront</strong> is a fast content delivery network (CDN) service offered by Amazon Web Services. It securely delivers data, videos, applications, and APIs to customers globally with low latency and high transfer speeds.</p>
+                <p>Think of it as a global network of proxy servers that cache content, such as web pages, images, and video, closer to your end-users so they don't have to fetch it from your origin server every single time.</p>
+            </section>
+
+            <section>
+                <h2>How It Works</h2>
+                <p>CloudFront achieves its incredible speed by utilizing a global network of data centers called <strong>Edge Locations</strong>. Here is the step-by-step process of how it handles a user request:</p>
+                <ol>
+                    <li>A user accesses your website or application and requests a file (e.g., an image).</li>
+                    <li>The DNS routes the request to the CloudFront <strong>Edge Location</strong> that can best serve the request (usually the mathematically closest one in terms of latency).</li>
+                    <li>CloudFront checks its cache for the requested file:
+                        <ul>
+                            <li><strong>Cache Hit:</strong> If the file is in the cache, CloudFront returns it to the user immediately.</li>
+                            <li><strong>Cache Miss:</strong> If the file is not in the cache (or has expired), CloudFront forwards the request to your <strong>Origin Server</strong> (like an Amazon S3 bucket or an EC2 instance) to fetch the file, sends it to the user, and saves it in the cache for future requests.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Kinds of Content Supported</h2>
+                <p>CloudFront isn't just for simple images. It divides the types of content and distribution methods into two main categories:</p>
+                
+                <h3>1. Static Content Delivery</h3>
+                <p>This includes files that do not change frequently, such as HTML files, CSS files, JavaScript code, images, and software downloads. CloudFront caches these at the edge to reduce the load on your origin backend.</p>
+
+                <h3>2. Dynamic & Streaming Content</h3>
+                <p>CloudFront can also optimize dynamic content (like personalized web content or shopping carts) by routing requests over the optimized AWS global network. It also supports video streaming formats like HLS, DASH, and CMAF to deliver media seamlessly.</p>
+            </section>
+
+            <section>
+                <h2>Payment Methods & Pricing Model</h2>
+                <p>Like most AWS services, CloudFront operates primarily on a <strong>Pay-As-You-Go</strong> consumption model. You are not required to sign up for long-term contracts or pay upfront fees.</p>
+                
+                <div class="callout">
+                    <strong>AWS Free Tier Note:</strong> New AWS accounts get 1 TB of data transfer out and 10,000,000 HTTP/HTTPS requests per month for free, forever!
+                </div>
+
+                <p>When you scale past the free tier, your bill is calculated based on three primary factors:</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pricing Factor</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Data Transfer Out</strong></td>
+                            <td>The volume of data (in GB) transferred out of CloudFront edge locations to your users. Rates vary by geographic region.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HTTP/HTTPS Requests</strong></td>
+                            <td>The total number of requests made to your distribution. Secure HTTPS requests typically cost slightly more than standard HTTP requests.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Origin Data Transfer</strong></td>
+                            <td>Data transferred from CloudFront back to your origin server (though data transfer <em>from</em> AWS origins like S3 to CloudFront is free).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Conclusion</h2>
+                <p>AWS CloudFront is a cornerstone service for building fast, highly available, and secure global applications. By dropping latency down to milliseconds and easing the burden on your origin servers, it offers an efficient way to enhance your user experience without breaking the bank.</p>
+            </section>
+        </article>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Cloud Tech Blog. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
