@@ -10,11 +10,26 @@ This repository documents my hands-on implementation of an Amazon EKS (Elastic K
 ## 🗺️ Cluster Architecture Diagram
 
 ```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+graph TD
+    User([Internet Traffic / User]) -->|HTTP/HTTPS| ALB[AWS Application Load Balancer]
+
+    subgraph AWS_Cloud [Amazon Web Services]
+        subgraph EKS_Cluster [Amazon EKS Cluster Control Plane]
+            LBC[AWS Load Balancer Controller Pod]
+            MS[Metrics Server Pod]
+            CD[CoreDNS Pod]
+        end
+
+        subgraph Data_Plane [Data Plane / Managed Nodes]
+            AppPods[Application Pods]
+        end
+    end
+
+    %% Connections
+    ALB --> LBC
+    LBC --> AppPods
+    MS --> AppPods
+    CD --> AppPods
 ```
 ---
 
