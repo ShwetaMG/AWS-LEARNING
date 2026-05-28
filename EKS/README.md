@@ -10,10 +10,12 @@ This repository documents my hands-on implementation of an Amazon EKS (Elastic K
 ## 🗺️ Cluster Architecture Diagram
 
 ```mermaid
-graph TD
-    User([Internet Traffic]) --> ALB[Load Balancer]
-    ALB --> Pods[Application Pods]
-
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
 ---
 
 ## 🛠️ Tech Stack & Prerequisites
