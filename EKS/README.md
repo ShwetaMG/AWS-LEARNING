@@ -11,26 +11,8 @@ This repository documents my hands-on implementation of an Amazon EKS (Elastic K
 
 ```mermaid
 graph TD
-    User([Internet Traffic / User]) -->|HTTP/HTTPS| ALB[AWS Application Load Balancer]
-
-    subgraph AWS_Cloud [Amazon Web Services]
-        subgraph EKS_Cluster [Amazon EKS Cluster Control Plane]
-            LBC[AWS Load Balancer Controller Pod]
-            MS[Metrics Server Pod]
-            CD[CoreDNS Pod]
-        end
-
-        subgraph Data_Plane [Data Plane / Managed Nodes]
-            AppPods[Application Pods]
-        end
-    end
-
-    %% Connections
-    ALB --> LBC
-    LBC --> AppPods
-    MS --> AppPods
-    CD --> AppPods
-'''
+    User([Internet Traffic]) --> ALB[Load Balancer]
+    ALB --> Pods[Application Pods]
 
 ---
 
