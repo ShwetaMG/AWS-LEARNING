@@ -29,9 +29,6 @@ graph TD
         end
     end
 
-    %% Storage Integration from the video diagram
-    EC2_1 <--> S3[(Amazon S3 Bucket)]
-    EC2_2 <--> S3
 
 ```   
 
