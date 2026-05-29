@@ -64,3 +64,8 @@ While keeping pace with the video steps, I ran into a classic infrastructure roa
 * **The Learning:** Upon verifying the health of the system via `kubectl get deploy -n kube-system`, I noticed a `metrics-server` deployment active that wasn't explicitly mentioned at that point in the tutorial. Gemini clarified that modern iterations of `eksctl` bundle lightweight, cluster-wide metric aggregators directly during bootstrap to natively enable HPA (Horizontal Pod Autoscaling) out of the box.
 
 ## Result Images
+<img width="1366" height="768" alt="Screenshot (67)" src="https://github.com/user-attachments/assets/16b81be2-b3e8-4226-a5ef-aa54f9de2dea" />
+
+<img width="1366" height="768" alt="Screenshot (66)" src="https://github.com/user-attachments/assets/b63e5331-4aed-4e65-8e34-d7755286579d" />
+
+
