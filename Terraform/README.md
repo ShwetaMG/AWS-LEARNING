@@ -6,19 +6,20 @@ This repo is my hands-on implementation of an automated, highly available web ar
 ## Architecture diagram
 The diagram below illustrates the exact structural layout deployed via our code base:
 ```mermaid
-graph TD
+dth:2px,stroke-dasharray: 5 5graph TD
     %% External User Client
-    User((🌐 Internet User)) -->|HTTP Request: Port 80| ALB
+    User((🌐 Internet User)) -->|HTTP Request: Port 80| IGW
 
     %% AWS Cloud Infrastructure
     subgraph AWS_Cloud ["AWS Cloud (Region: us-east-1)"]
         
         subgraph VPC ["Custom VPC (10.0.0.0/16)"]
             
-            %% Gateway Component
-            IGW[Internet Gateway] --- RouteTable[Public Route Table]
+            %% Edge Ingress Layer
+            IGW[Internet Gateway] -->|Routes Traffic| RouteTable[Public Route Table]
+            RouteTable -->|Directs to| ALB
             
-            %% Application Load Balancer (Sits across the public subnets)
+            %% Application Load Balancer
             ALB[Application Load Balancer <br> 'my-alb']
             
             %% Routing to Target Group
@@ -40,14 +41,14 @@ graph TD
             end
             
             %% Target Group Associations
-            TG --- EC2_1
-            TG --- EC2_2
+            TG --> EC2_1
+            TG --> EC2_2
 
             %% Shared Security Firewall Layer
             SG{Web Security Group <br> Inbound: 80, 22 <br> Outbound: ALL}
-            EC2_1 --- SG
-            EC2_2 --- SG
-            ALB --- SG
+            EC2_1 -.-> SG
+            EC2_2 -.-> SG
+            ALB -.-> SG
 
         end
     end
@@ -56,7 +57,8 @@ graph TD
     style User fill:#f9f,stroke:#333,stroke-width:2px
     style ALB fill:#4D90FE,stroke:#fff,stroke-width:2px,color:#fff
     style TG fill:#FF9900,stroke:#fff,stroke-width:2px,color:#fff
-    style IGW fill:#FF9900,stroke:#fff,stroke-width:1px
+    style IGW fill:#FF9900,stroke:#fff,stroke-width:2px,color:#fff
+    style RouteTable fill:#cc99ff,stroke:#333,stroke-width:1px
     style EC2_1 fill:#FF9900,stroke:#333,stroke-width:1px
     style EC2_2 fill:#FF9900,stroke:#333,stroke-width:1px
     style SG fill:#cc0000,stroke:#fff,stroke-width:1px,color:#fff
