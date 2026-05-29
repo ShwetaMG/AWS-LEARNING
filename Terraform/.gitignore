@@ -1,0 +1,24 @@
+# Local .terraform folder containing compiled binaries, modules, and providers
+.terraform/
+
+# Hide all local state files tracking infrastructure records
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*
+
+# Ignore local variable override files that might hold private variables or secrets
+*.tfvars
+*.tfvars.json
+
+# Ignore override configuration files
+override.tf
+override.tf.json
+_override.tf
+_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
