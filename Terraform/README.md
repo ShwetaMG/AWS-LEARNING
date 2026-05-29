@@ -7,24 +7,31 @@ This repo is my hands-on implementation of an automated, highly available web ar
 The diagram below illustrates the exact structural layout deployed via our code base:
 ```mermaid
 graph TD
-    %% Traffic Ingress
-    User((🌐 Internet User)) -->|HTTP Request: Port 80| IGW[Internet Gateway]
-    
-    %% Routing Layer
+    %% External Ingress
+    User((🌐 Internet User)) -->|Port 80| IGW[Internet Gateway]
     IGW --> RouteTable[Public Route Table]
-    RouteTable --> ALB[Application Load Balancer 'my-alb']
-    
-    %% Distribution Layer
-    ALB --> TG[Target Group: Port 80]
-    
-    %% Compute Layer
-    TG --> EC2_1[EC2 Instance 1: web-server-1]
-    TG --> EC2_2[EC2 Instance 2: web-server-2]
-    
-    %% Security Overlay
-    EC2_1 -.-> SG{Web Security Group}
-    EC2_2 -.-> SG
-    ALB -.-> SG
+
+    %% Infrastructure Boundaries
+    subgraph VPC [Custom VPC Boundary]
+        RouteTable --> ALB
+        
+        %% Load Balancing Component wrapped by Firewall
+        subgraph SG_ALB [Security Group Protection]
+            ALB[Application Load Balancer 'my-alb']
+        end
+
+        ALB --> TG[Target Group]
+
+        %% Target Web Servers wrapped by Firewall
+        subgraph SG_Instances [Security Group Protection]
+            TG --> EC2_1[EC2 Instance 1: web-server-1]
+            TG --> EC2_2[EC2 Instance 2: web-server-2]
+        end
+    end
+
+    %% Storage Integration from the video diagram
+    EC2_1 <--> S3[(Amazon S3 Bucket)]
+    EC2_2 <--> S3
 
 ```   
 
