@@ -6,65 +6,27 @@ This repo is my hands-on implementation of an automated, highly available web ar
 ## Architecture diagram
 The diagram below illustrates the exact structural layout deployed via our code base:
 ```mermaid
-dth:2px,stroke-dasharray: 5 5graph TD
-    %% External User Client
-    User((🌐 Internet User)) -->|HTTP Request: Port 80| IGW
+graph TD
+    %% Traffic Ingress
+    User((🌐 Internet User)) -->|HTTP Request: Port 80| IGW[Internet Gateway]
+    
+    %% Routing Layer
+    IGW --> RouteTable[Public Route Table]
+    RouteTable --> ALB[Application Load Balancer 'my-alb']
+    
+    %% Distribution Layer
+    ALB --> TG[Target Group: Port 80]
+    
+    %% Compute Layer
+    TG --> EC2_1[EC2 Instance 1: web-server-1]
+    TG --> EC2_2[EC2 Instance 2: web-server-2]
+    
+    %% Security Overlay
+    EC2_1 -.-> SG{Web Security Group}
+    EC2_2 -.-> SG
+    ALB -.-> SG
 
-    %% AWS Cloud Infrastructure
-    subgraph AWS_Cloud ["AWS Cloud (Region: us-east-1)"]
-        
-        subgraph VPC ["Custom VPC (10.0.0.0/16)"]
-            
-            %% Edge Ingress Layer
-            IGW[Internet Gateway] -->|Routes Traffic| RouteTable[Public Route Table]
-            RouteTable -->|Directs to| ALB
-            
-            %% Application Load Balancer
-            ALB[Application Load Balancer <br> 'my-alb']
-            
-            %% Routing to Target Group
-            TG[Target Group <br> Port 80 / Health Check: /]
-            ALB -->|Forwards Traffic| TG
-
-            %% Availability Zone A
-            subgraph AZ_A ["Availability Zone: us-east-1a"]
-                subgraph Subnet_1 ["Public Subnet 1 (10.0.0.0/24)"]
-                    EC2_1["EC2 Instance 1 <br> 'web-server-1' <br> (Apache HTTP Server)"]
-                end
-            end
-
-            %% Availability Zone B
-            subgraph AZ_B ["Availability Zone: us-east-1b"]
-                subgraph Subnet_2 ["Public Subnet 2 (10.0.1.0/24)"]
-                    EC2_2["EC2 Instance 2 <br> 'web-server-2' <br> (Apache HTTP Server)"]
-                end
-            end
-            
-            %% Target Group Associations
-            TG --> EC2_1
-            TG --> EC2_2
-
-            %% Shared Security Firewall Layer
-            SG{Web Security Group <br> Inbound: 80, 22 <br> Outbound: ALL}
-            EC2_1 -.-> SG
-            EC2_2 -.-> SG
-            ALB -.-> SG
-
-        end
-    end
-
-    %% Visual Styling
-    style User fill:#f9f,stroke:#333,stroke-width:2px
-    style ALB fill:#4D90FE,stroke:#fff,stroke-width:2px,color:#fff
-    style TG fill:#FF9900,stroke:#fff,stroke-width:2px,color:#fff
-    style IGW fill:#FF9900,stroke:#fff,stroke-width:2px,color:#fff
-    style RouteTable fill:#cc99ff,stroke:#333,stroke-width:1px
-    style EC2_1 fill:#FF9900,stroke:#333,stroke-width:1px
-    style EC2_2 fill:#FF9900,stroke:#333,stroke-width:1px
-    style SG fill:#cc0000,stroke:#fff,stroke-width:1px,color:#fff
-    style VPC fill:#f5f5f5,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
 ```   
-
 
 
 ### Architectural Workflow:
