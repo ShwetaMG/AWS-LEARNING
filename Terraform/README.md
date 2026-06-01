@@ -102,3 +102,4 @@ To ensure zero ongoing charges for instructional test blocks, tear down all acti
 ```bash
 terraform destroy -auto-approve
 ```
+
