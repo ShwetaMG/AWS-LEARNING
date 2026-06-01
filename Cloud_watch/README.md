@@ -49,6 +49,8 @@ Email Notification Delivery: The active SNS topic intercepted the breach state n
 
 ## Demo screenshots
 
-![CloudWatch Metric Graph](Cloud_watch\images\Screenshot 2026-06-01 225806.png)
+![CloudWatch Metric Graph](Cloud_watch/images/Screenshot 2026-06-01 225806.png)
 
-![Alaram notification in inbox](Cloud_watch\images\Screenshot 2026-06-01 230036.png)
+![Alaram notification in inbox](Cloud_watch/images/Screenshot 2026-06-01 230036.png)
+
+NOTE: I performed this demo by watching Abhishek veermallas AWS-zero-to-hero series from youtube channel. please go through the vedio if you want to understand clearly.
